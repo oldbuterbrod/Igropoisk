@@ -1,0 +1,70 @@
+.register-container {
+  max-width: 400px;
+  margin: 40px auto 0;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  color: #f0f0f0;
+  background-color: #121212;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 197, 125, 0.5);
+}
+
+.register-container h2 {
+  margin-bottom: 20px;
+  color: whitesmoke;
+}
+
+.register-container label {
+  display: block;
+  margin-bottom: 12px;
+  font-weight: bold;
+}
+
+.register-container input {
+  width: 100%;
+  padding: 8px;
+  margin-top: 4px;
+  margin-bottom: 16px;
+  border-radius: 6px;
+  border: 1px solid #00c57d;
+  background-color: #222;
+  color: #f0f0f0;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.register-container input::placeholder {
+  color: #999;
+}
+
+.register-container button {
+  width: 100%;
+  padding: 10px;
+  font-weight: bold;
+  background: linear-gradient(180deg, #0ff0fc 0%, #00c57d 100%);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+.register-container button:hover {
+  background: linear-gradient(180deg, #00c57d 0%, #0ff0fc 100%);
+  transform: scale(1.05);
+}
+
+.register-container button:active {
+  transform: scale(0.95);
+}
+
+.register-container .link-button {
+  margin-top: 10px;
+  background: linear-gradient(180deg, #0ff0fc 0%, #00c57d 100%);
+  width: 100%;
+}
+
+.register-container .error-message {
+  color: red;
+  margin-bottom: 10px;
+}

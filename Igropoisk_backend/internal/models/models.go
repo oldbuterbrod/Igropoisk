@@ -21,19 +21,19 @@ type Game struct {
 	Platforms      string    `json:"platforms"`
 	Review         string    `json:"review,omitempty"`
 	AverageScore   *float64  `json:"average_score,omitempty"`
-	RatingCount    int       `json:"rating_count,omitempty"`    // новое поле
-	FavoritesCount int       `json:"favorites_count,omitempty"` // новое поле
+	RatingCount    int       `json:"rating_count,omitempty"`    
+	FavoritesCount int       `json:"favorites_count,omitempty"`
 }
 
 type Review struct {
 	ID        int       `json:"id"`
 	UserID    int       `json:"user_id"`
-	GameID    int       `json:"gameId"` // <--- ВНИМАНИЕ: camelCase
+	GameID    int       `json:"gameId"` 
 	Text      string    `json:"text"`
 	Score     int       `json:"score"`
 	CreatedAt time.Time `json:"created_at"`
 	User      *User     `json:"user,omitempty"`
-	GameTitle string    `json:"gameTitle"` // <--- добавь JSON-тег
+	GameTitle string    `json:"gameTitle"`
 }
 
 type Genre struct {

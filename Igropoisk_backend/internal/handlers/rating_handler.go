@@ -29,7 +29,7 @@ func (h *RatingHandler) GetUserRatings(c *gin.Context) {
 		return
 	}
 
-	c.JSON(http.StatusOK, ratings) // map[int]int: {gameID: score, ...}
+	c.JSON(http.StatusOK, ratings) 
 }
 
 func (h *RatingHandler) DeleteRating(c *gin.Context) {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-
+import './ProfilePage.css'
 const ProfilePage = () => {
   const [user, setUser] = useState(null);
 
@@ -187,92 +187,92 @@ const ProfilePage = () => {
       alert(err.message || "Ошибка при удалении отзыва");
     }
   };
+  const handleLogout = () => {
+  localStorage.removeItem("token");
+  navigate("/login");
+};
 
 
   return (
-    <div style={{ padding: "24px" }}>
+    <div className="profile-page">
       <h1>Профиль</h1>
       {user ? (
         <>
           <p>Имя пользователя: <strong>{user.username}</strong></p>
           <p>Email: <strong>{user.email}</strong></p>
+          <div className="logout-container">
+          <button className="logout-button" onClick={handleLogout}>Выйти из профиля</button>
+         </div>
 
-          <div style={{ marginTop: "24px" }}>
+          <div className="profile-section">
             <h2>Мои оценки</h2>
             {loadingRatings && <p>Загрузка оценок...</p>}
             {ratingsError && <p style={{ color: "red" }}>{ratingsError}</p>}
             {ratings && Object.keys(ratings).length === 0 && <p>Оценок нет</p>}
             {ratings && Object.entries(ratings).length > 0 && (
-              <ul>
-                {Object.entries(ratings).map(([gameId, ratingInfo])  => (
-                  <li key={gameId} style={{ display: "flex", alignItems: "center", gap: "8px" }}>
-                   Игра: <strong>{ratingInfo.title}</strong>, оценка: <strong>{ratingInfo.score}</strong>
-                    <button
-                      onClick={() => handleDeleteRating(gameId)}
-                      style={{ marginLeft: "auto", cursor: "pointer" }}
-                    >
-                      Удалить
-                    </button>
-                  </li>
-                ))}
-              </ul>
+              <ul className="profile-list">
+  {Object.entries(ratings).map(([gameId, ratingInfo]) => (
+    <li key={gameId}>
+      <div>
+        Игра: <strong>{ratingInfo.title}</strong>
+        <p></p>Оценка: <strong>{ratingInfo.score}</strong>
+      </div>
+      <button className="profile-button" onClick={() => handleDeleteRating(gameId)}>Удалить</button>
+    </li>
+  ))}
+</ul>
+
             )}
           </div>
 
-          <div style={{ marginTop: "24px" }}>
+          <div className="profile-section">
             <h2>Мои отзывы</h2>
             {loadingReviews && <p>Загрузка отзывов...</p>}
             {reviewsError && <p style={{ color: "red" }}>{reviewsError}</p>}
-            {Array.isArray(reviews) && reviews.length === 0 && <p>Отзывов нет</p>}
-            {Array.isArray(reviews) && reviews.length > 0 && (
-              <ul>
+            {reviews.length === 0 && <p>Отзывов нет</p>}
+            {reviews.length > 0 && (
+              <ul className="profile-list">
                 {reviews.map((review) => (
-                  <li key={review.id} style={{ marginBottom: "12px" }}>
-                    <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
+                  <li key={review.id}>
+                    <div>
                       <strong>{review.gameTitle}</strong> — {review.text}
-                      <button
-                        onClick={() => handleDeleteReview(review.gameId)}
-                        style={{ marginLeft: "auto", cursor: "pointer" }}
-                      >
-                        Удалить
-                      </button>
+                      <br />
+                      <small>Дата: {new Date(review.created_at).toLocaleDateString("ru-RU")}</small>
                     </div>
-                    <small>Дата: {new Date(review.created_at).toLocaleDateString("ru-RU")}</small>
+                    <button className="profile-button" onClick={() => handleDeleteReview(review.gameId)}>Удалить</button>
                   </li>
                 ))}
               </ul>
             )}
           </div>
 
-          <div style={{ marginTop: "24px" }}>
+          <div className="profile-section">
             <h2>Любимые игры</h2>
             {loadingFavorites && <p>Загрузка...</p>}
             {favoritesError && <p style={{ color: "red" }}>{favoritesError}</p>}
-            {Array.isArray(favorites) && favorites.length === 0 && <p>Нет любимых игр</p>}
-            {Array.isArray(favorites) && favorites.length > 0 && (
-              <ul>
+            {favorites.length === 0 && <p>Нет любимых игр</p>}
+            {favorites.length > 0 && (
+              <ul className="profile-list">
                 {favorites.map((game) => (
                   <li key={game.id}>
-                    <Link to={`/games/${game.id}`}><strong>{game.title}</strong></Link>
-                    <button onClick={() => handleRemoveFavorite(game.id)} style={{ marginLeft: 12 }}>
-                      Удалить
-                    </button>
+                    <Link className="profile-link" to={`/games/${game.id}`}><strong>{game.title}</strong></Link>
+                    <button className="profile-button" onClick={() => handleRemoveFavorite(game.id)}>Удалить</button>
                   </li>
                 ))}
               </ul>
             )}
           </div>
 
-          <div style={{ marginTop: "24px" }}>
+          <div className="profile-section">
             <h2>Рекомендации</h2>
             {loadingRecommendations && <p>Загрузка рекомендаций...</p>}
             {recommendationsError && <p style={{ color: "red" }}>{recommendationsError}</p>}
-            {Array.isArray(recommendations) && recommendations.length === 0 && <p>Нет рекомендаций</p>}
-            {Array.isArray(recommendations) && recommendations.length > 0 && (
-              <ul>
+            {recommendations.length === 0 && <p>Нет рекомендаций</p>}
+            {recommendations.length > 0 && (
+              <ul className="profile-list">
                 {recommendations.map((game) => (
                   <li key={game.id}>
-                    <Link to={`/games/${game.id}`}><strong>{game.title}</strong></Link>
+                    <Link className="profile-link" to={`/games/${game.id}`}><strong>{game.title}</strong></Link>
                   </li>
                 ))}
               </ul>

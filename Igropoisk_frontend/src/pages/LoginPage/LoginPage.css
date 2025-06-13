@@ -1,0 +1,81 @@
+.login-container {
+  max-width: 400px;
+  margin: 40px auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+  color: #f0f0f0;
+  background-color: #121212;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 197, 125, 0.5);
+}
+
+.login-container h2 {
+  margin-bottom: 20px;
+  color: whitesmoke;
+  text-align: center;
+}
+
+.login-container label {
+  display: block;
+  margin-bottom: 12px;
+  font-weight: bold;
+  color: whitesmoke;
+}
+
+.login-container input[type="email"],
+.login-container input[type="password"] {
+  width: 100%;
+  padding: 8px 10px;
+  margin-top: 6px;
+  border-radius: 6px;
+  border: 1px solid #333;
+  background-color: #1e1e1e;
+  color: #f0f0f0;
+  font-size: 14px;
+  box-sizing: border-box;
+}
+
+.login-container input[type="email"]::placeholder,
+.login-container input[type="password"]::placeholder {
+  color: #888;
+}
+
+.login-container input[type="email"]:focus,
+.login-container input[type="password"]:focus {
+  outline: none;
+  border-color: #00c57d;
+  box-shadow: 0 0 5px #00c57d;
+}
+
+.error-message {
+  color: #ff4c4c;
+  margin-bottom: 10px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.login-button,
+.register-button {
+  width: 100%;
+  background: linear-gradient(180deg, #0ff0fc 0%, #00c57d 100%);
+  color: #fff;
+  padding: 10px 0;
+  border: none;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  margin-top: 10px;
+}
+
+.login-button:hover,
+.register-button:hover {
+  background: linear-gradient(180deg, #00c57d 0%, #0ff0fc 100%);
+  transform: scale(1.05);
+}
+
+.login-button:active,
+.register-button:active {
+  transform: scale(0.95);
+}

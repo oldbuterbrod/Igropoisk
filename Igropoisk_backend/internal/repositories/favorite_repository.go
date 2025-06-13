@@ -14,7 +14,7 @@ func NewFavoriteRepository(db *sql.DB) *FavoriteRepository {
 	return &FavoriteRepository{db: db}
 }
 
-// Добавить игру в избранное
+
 func (r *FavoriteRepository) AddFavorite(userID, gameID int) error {
 	_, err := r.db.Exec(`
 		INSERT INTO favorites (user_id, game_id)
@@ -24,7 +24,7 @@ func (r *FavoriteRepository) AddFavorite(userID, gameID int) error {
 	return err
 }
 
-// Удалить игру из избранного
+
 func (r *FavoriteRepository) RemoveFavorite(userID, gameID int) error {
 	_, err := r.db.Exec(`
 		DELETE FROM favorites WHERE user_id = $1 AND game_id = $2
@@ -32,7 +32,6 @@ func (r *FavoriteRepository) RemoveFavorite(userID, gameID int) error {
 	return err
 }
 
-// Получить все любимые игры пользователя
 func (r *FavoriteRepository) GetFavoritesByUser(userID int) ([]models.Game, error) {
 	rows, err := r.db.Query(`
 		SELECT g.id, g.title, g.description, g.release_date, g.developer, g.publisher, g.cover_url, g.platforms

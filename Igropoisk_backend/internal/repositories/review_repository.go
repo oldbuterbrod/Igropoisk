@@ -73,7 +73,7 @@ func (r *ReviewRepository) GetReviewsByUserID(userID int) ([]models.Review, erro
 		if err := rows.Scan(&r.ID, &r.UserID, &r.GameID, &r.Text, &r.CreatedAt, &gameTitle); err != nil {
 			return nil, err
 		}
-		r.GameTitle = gameTitle // добавьте поле GameTitle в модель, чтобы было понятно к какой игре отзыв
+		r.GameTitle = gameTitle 
 		reviews = append(reviews, r)
 	}
 	return reviews, nil

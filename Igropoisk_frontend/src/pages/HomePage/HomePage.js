@@ -35,13 +35,14 @@ const TopGamesList = ({ games, loading, error }) => (
     {!loading && !error && games.length === 0 && <p className="no-data">Нет данных</p>}
     {!loading && !error && games.length > 0 && (
       <ol className="top-list">
-        {games.map((game) => (
+        {games.map((game,index) => (
           <li key={game.id} className="top-item">
+            <span className="top-rank">{index + 1}.</span>
             <img src={game.cover_url} alt={game.title} className="top-image" />
             <Link to={`/games/${game.id}`} className="top-link">
               {game.title}
             </Link>
-            <span className="top-score">⭐ {game.average_score.toFixed(1)}</span>
+            <span className="top-score">{game.average_score.toFixed(1)}</span>
           </li>
         ))}
       </ol>

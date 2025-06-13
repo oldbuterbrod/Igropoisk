@@ -1,10 +1,135 @@
-UPDATE games
-SET
-  title = 'Fallout 4',
-  description = 'Постапокалиптическая RPG от Bethesda, действие которой происходит в разрушенном ядерной войной мире. Игрок управляет выжившим из Убежища 111, исследуя пустоши, строя поселения и принимая судьбоносные решения.',
-  developer = 'Bethesda Game Studios',
-  platforms = 'PC, PS4, Xbox One',
-  publisher = 'Bethesda Softworks',
-  release_date = '2015-11-10',
-  cover_url = 'https://3.downloader.disk.yandex.ru/preview/0e998843d26c484b6625c721375059162d85456c9d247713bdc8279b65e36d3f/inf/X4AWlr0MZUddgPbxozOMDii5fypf4mup6FtI3N_nZnD3SxRhtdTzfuWxPiui35kGnB8QuWKHQTAhuaO1prXocQ%3D%3D?uid=208664216&filename=81LVtnitzDL.jpg&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=208664216&tknv=v3&size=1901x922'
-WHERE id = 9;
+
+DELETE FROM users;
+
+
+INSERT INTO users (id, username, email, password_hash) VALUES
+(1, 'gamer123', 'gamer123@example.com', 'hashed_password_1'),
+(2, 'darklord', 'darklord@example.com', 'hashed_password_2'),
+(3, 'witcherfan', 'witcherfan@example.com', 'hashed_password_3'),
+(4, 'survivor', 'survivor@example.com', 'hashed_password_4'),
+(5, 'rockstar', 'rockstar@example.com', 'hashed_password_5'),
+(6, 'cyberpunk', 'cyberpunk@example.com', 'hashed_password_6'),
+(7, 'zombiekiller', 'zombiekiller@example.com', 'hashed_password_7'),
+(8, 'postapoc', 'postapoc@example.com', 'hashed_password_8'),
+(9, 'spacemarine', 'spacemarine@example.com', 'hashed_password_9'),
+(10, 'mafia_boss', 'mafia_boss@example.com', 'hashed_password_10'),
+(11, 'doomslayer', 'doomslayer@example.com', 'hashed_password_11'),
+(12, 'shepard', 'shepard@example.com', 'hashed_password_12'),
+(13, 'horrorfan', 'horrorfan@example.com', 'hashed_password_13'),
+(14, 'rpg_lover', 'rpg_lover@example.com', 'hashed_password_14'),
+(15, 'critic', 'critic@example.com', 'hashed_password_15')
+ON CONFLICT (id) DO NOTHING;
+
+
+DELETE FROM ratings;
+DELETE FROM favorites;
+DELETE FROM reviews;
+
+
+INSERT INTO ratings (user_id, game_id, score) VALUES
+-- The Witcher 3
+(3, 8, 10), (4, 8, 10), (5, 8, 9), (6, 8, 10), (7, 8, 9), (9, 8, 10), (14, 8, 9),
+
+-- GTA V
+(2, 6, 9), (3, 6, 9), (5, 6, 10), (7, 6, 9), (10, 6, 10), (12, 6, 9), (14, 6, 9),
+
+-- Red Dead Redemption 2
+(1, 5, 10), (3, 5, 10), (4, 5, 9), (5, 5, 10), (11, 5, 10), (14, 5, 9), (15, 5, 9),
+
+-- The Last of Us
+(2, 4, 9), (4, 4, 10), (7, 4, 9), (9, 4, 10), (13, 4, 9), (15, 4, 10), (3, 4, 8),
+
+-- Fallout 4
+(3, 9, 9), (5, 9, 8), (6, 9, 9), (10, 9, 9), (12, 9, 8), (14, 9, 9), (15, 9, 8),
+
+-- Resident Evil 2 Remake
+(1, 1, 8), (7, 1, 9), (4, 1, 7), (9, 1, 8), (11, 1, 7), (13, 1, 8), (15, 1, 9),
+
+-- Silent Hill 2 Remake
+(2, 2, 8), (7, 2, 9), (4, 2, 7), (10, 2, 8), (12, 2, 7), (13, 2, 8), (15, 2, 9),
+
+-- Alan Wake
+(3, 3, 7), (6, 3, 8), (9, 3, 7), (11, 3, 8), (13, 3, 7), (15, 3, 8), (2, 3, 7),
+
+-- Cyberpunk 2077
+(3, 7, 7), (5, 7, 8), (6, 7, 8), (10, 7, 8), (12, 7, 7), (14, 7, 8), (15, 7, 7),
+
+-- Mass Effect: Legendary Edition
+(3, 10, 8), (6, 10, 9), (8, 10, 8), (10, 10, 9), (12, 10, 9), (13, 10, 8), (14, 10, 9),
+
+-- Doom: The Dark Age
+(2, 11, 7), (5, 11, 8), (7, 11, 7), (9, 11, 8), (11, 11, 8), (12, 11, 7), (15, 11, 8),
+
+-- Warhammer 40,000: Space Marine 2
+(2, 12, 7), (4, 12, 8), (6, 12, 7), (8, 12, 8), (9, 12, 8), (11, 12, 7), (14, 12, 8)
+
+ON CONFLICT (user_id, game_id) DO NOTHING;
+
+-- Добавляем избранное без дубликатов
+INSERT INTO favorites (user_id, game_id) VALUES
+(1, 5), (1, 6), (1, 8),
+(2, 2), (2, 4), (2, 11),
+(3, 5), (3, 8), (3, 10),
+(4, 4), (4, 5), (4, 12),
+(5, 5), (5, 6),
+(6, 7), (6, 8), (6, 10),
+(7, 1), (7, 2),
+(8, 5), (8, 8), (8, 9),
+(9, 1), (9, 4), (9, 12),
+(10, 6),
+(11, 1), (11, 11), (11, 12),
+(12, 6), (12, 10),
+(13, 1), (13, 2), (13, 3),
+(14, 5), (14, 8), (14, 9),
+(15, 1), (15, 2), (15, 3)
+ON CONFLICT (user_id, game_id) DO NOTHING;
+
+-- Добавляем отзывы
+INSERT INTO reviews (user_id, game_id, text) VALUES
+-- Resident Evil 2 Remake
+(7, 1, 'Капком наконец-то сделали все правильно. Геймплей обновлен, но дух оригинала сохранен. Леон и Клэр выглядят потрясающе!'),
+(13, 1, 'Отличный ремейк! Атмосфера ужаса передана идеально.'),
+
+-- Silent Hill 2 Remake
+(2, 2, 'Очень волнительно играть в ремейк культовой игры. Графика впечатляет.'),
+(15, 2, 'Атмосфера Сайлент Хилла передана идеально. Туман, звуки, монстры - все на уровне.'),
+
+-- Alan Wake
+(3, 3, 'Уникальная атмосфера и интересный сюжет в стиле Стивена Кинга.'),
+(15, 3, 'Игра как интерактивный сериал - очень необычный подход.'),
+
+-- The Last of Us
+(4, 4, 'Это не просто игра, это произведение искусства. Эмоциональный сюжет и проработанные персонажи.'),
+(9, 4, 'Прошел игру 5 раз и каждый раз плакал в финале. Отношения Джоэла и Элли - реалистичны.'),
+
+-- Red Dead Redemption 2
+(5, 5, 'Шедевр от Rockstar. Открытый мир настолько живой, что в него хочется возвращаться.'),
+(14, 5, 'Лучший открытый мир в истории игр. Каждая деталь проработана.'),
+
+-- GTA V
+(10, 6, 'Безумно веселая и разнообразная игра. Три главных героя - гениальное решение.'),
+(12, 6, 'Даже спустя годы игра не теряет актуальности. Лос-Сантос детализирован.'),
+
+-- Cyberpunk 2077
+(6, 7, 'После всех обновлений игра наконец-то соответствует ожиданиям. Найт-Сити потрясающе красив.'),
+(14, 7, 'Теперь это одна из лучших RPG с открытым миром.'),
+
+-- The Witcher 3
+(3, 8, 'Лучшая RPG всех времен. Сотни часов контента, потрясающие квесты и персонажи.'),
+(7, 8, 'После стольких лет игра все еще выглядит великолепно. История Барона - лучший момент.'),
+(14, 8, 'Игра, которая подняла планку для всех RPG. Каждое решение имеет последствия.'),
+
+-- Fallout 4
+(8, 9, 'Отличный постапокалипсис с увлекательным крафтом поселений.'),
+(12, 9, 'Моддерский рай! Добавил кучу модов и играю уже 500 часов.'),
+
+-- Mass Effect: Legendary Edition
+(12, 10, 'Лучший способ пережить трилогию снова. Графика обновлена, геймплей улучшен.'),
+(14, 10, 'Эпическая космическая сага, которая не имеет аналогов.'),
+
+-- Doom: The Dark Age
+(11, 11, 'Брутальный и кровавый, как и должен быть Doom. Средневековый сеттинг добавил свежести.'),
+
+-- Warhammer 40,000: Space Marine 2
+(9, 12, 'Для фаната Warhammer 40K это мечта. Бои с тиранидами эпичны.')
+ON CONFLICT (user_id, game_id) DO NOTHING;

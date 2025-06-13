@@ -124,7 +124,7 @@ func (h *GameHandler) RateGame(c *gin.Context) {
 }
 
 func (h *GameHandler) GetRating(c *gin.Context) {
-	userID, _ := c.Get("userID") // необязательный, если неавторизован
+	userID, _ := c.Get("userID") 
 
 	gameID, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

@@ -1,4 +1,3 @@
-/* HomePage.css */
 
 .section {
   margin-bottom: 40px;
@@ -67,15 +66,32 @@
   font-size: 18px;
   font-weight: bold;
   text-decoration: none;
-  color: #333;
+  color: whitesmoke;
+  transition: text-decoration 0.2s ease;
 }
+
+.top-link:hover {
+  text-decoration: underline;
+}
+
 
 .top-score {
   margin-left: auto;
   font-size: 16px;
-  color: #555;
+  background: linear-gradient(180deg, #00C57D 0%, #0FF0FC 50%, rgba(102, 204, 102, 0.247059) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
 }
 
 .homepage {
   padding: 24px;
+}
+
+.top-rank {
+  width: 24px;
+  font-size: 18px;
+  font-weight: bold;
+  color: whitesmoke;
+  margin-right: 8px;
+  text-align: right;
 }

@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import './RegisterPage.css'
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -38,15 +39,13 @@ const RegisterPage = () => {
         return;
       }
 
-      // Предположим, что API возвращает токен сразу после регистрации:
-      // { token: "jwt-token-string" }
-      // Если нет — нужно сразу сделать запрос логина.
+
 
       if (data.token) {
         localStorage.setItem("token", data.token);
         navigate("/profile");
       } else {
-        // Если токена нет, делаем автоматический логин
+       
         await loginAfterRegister();
       }
     } catch (err) {
@@ -54,7 +53,7 @@ const RegisterPage = () => {
     }
   }
 
-  // Автоматический логин, если токена нет в ответе регистрации
+  
   async function loginAfterRegister() {
     try {
       const res = await fetch("http://localhost:8080/api/auth/login", {
@@ -83,53 +82,68 @@ const RegisterPage = () => {
   }
 
   return (
-    <div style={{ maxWidth: 400, margin: "auto", padding: 20 }}>
-      <h2>Регистрация</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Имя пользователя:
-          <input
-            type="text"
-            name="username"
-            value={formData.username}
-            onChange={handleChange}
-            required
-            minLength={3}
-          />
-        </label>
-        <br />
-        <label>
-          Email:
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </label>
-        <br />
-        <label>
-          Пароль:
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-            minLength={6}
-          />
-        </label>
-        <br />
-        {error && (
-          <div style={{ color: "red", marginBottom: 10 }}>{error}</div>
-        )}
-        <button type="submit">Зарегистрироваться</button>
-      </form>
-      <Link to="/login">
-        <button type="button" style={{ marginTop: 10 }}>У меня уже есть аккаунт!</button>
-      </Link>
-    </div>
+    <div className="register-container">
+  <h2>Регистрация</h2>
+  <form onSubmit={handleSubmit}>
+    <label>
+      Имя пользователя:
+      <input
+        type="text"
+        name="username"
+        value={formData.username}
+        onChange={handleChange}
+        required
+        minLength={3}
+      />
+    </label>
+    <label>
+      Email:
+      <input
+        type="email"
+        name="email"
+        value={formData.email}
+        onChange={handleChange}
+        required
+      />
+    </label>
+    <label>
+      Пароль:
+      <input
+        type="password"
+        name="password"
+        value={formData.password}
+        onChange={handleChange}
+        required
+        minLength={6}
+      />
+    </label>
+    <label>
+  Повторите пароль:
+  <input
+    type="password"
+    name="confirmPassword"
+    value={formData.confirmPassword || ""}
+    onChange={handleChange}
+    required
+    minLength={6}
+  />
+</label>
+
+
+    {error && (
+      <div className="error-message">{error}</div>
+    )}
+
+    <button type="submit">Зарегистрироваться</button>
+  </form>
+
+  <Link to="/login">
+    <button type="button" className="link-button">
+      У меня уже есть аккаунт!
+    </button>
+  </Link>
+</div>
+
   );
 }
 

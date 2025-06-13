@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
+import "./GamePage.css";
 
 const formatDate = (dateString) => {
   const options = { day: "2-digit", month: "long", year: "numeric" };
@@ -23,42 +24,41 @@ const GamePage = () => {
   const isReleased = (releaseDate) => new Date(releaseDate) <= new Date();
 
   useEffect(() => {
-  setLoading(true);
-  Promise.all([
-    fetch(`http://localhost:8080/api/games/${id}`).then(res => {
-      if (!res.ok) throw new Error("Не удалось загрузить игру");
-      return res.json();
-    }),
-    fetch(`http://localhost:8080/api/games/${id}/genres`).then(res => {
-      if (!res.ok) throw new Error("Не удалось загрузить жанр");
-      return res.json();
-    }),
-    fetch(`http://localhost:8080/api/games/${id}/similar`).then(res => {
-      if (!res.ok) throw new Error("Не удалось загрузить похожие игры");
-      return res.json();
-    }),
-    fetch(`http://localhost:8080/api/games/${id}/rating`)
-      .then(res => res.ok ? res.json() : { average: 0 })
-      .catch(() => ({ average: 0 })),
-    fetch(`http://localhost:8080/api/games/${id}/reviews`)
-      .then(res => res.ok ? res.json() : [])
-      .catch(() => [])
-  ])
-    .then(([gameData, genreData, similarData, ratingData, reviewsData]) => {
-      const filteredSimilar = similarData.filter(g => isReleased(g.release_date));
-      setGame(gameData);
-      setGenre(genreData);
-      setSimilarGames(filteredSimilar);
-      setGameRating(ratingData);
-      setReviews(Array.isArray(reviewsData) ? reviewsData : []);
-      setLoading(false);
-    })
-    .catch((err) => {
-      setError(err.message);
-      setLoading(false);
-    });
-}, [id]);
-
+    setLoading(true);
+    Promise.all([
+      fetch(`http://localhost:8080/api/games/${id}`).then(res => {
+        if (!res.ok) throw new Error("Не удалось загрузить игру");
+        return res.json();
+      }),
+      fetch(`http://localhost:8080/api/games/${id}/genres`).then(res => {
+        if (!res.ok) throw new Error("Не удалось загрузить жанр");
+        return res.json();
+      }),
+      fetch(`http://localhost:8080/api/games/${id}/similar`).then(res => {
+        if (!res.ok) throw new Error("Не удалось загрузить похожие игры");
+        return res.json();
+      }),
+      fetch(`http://localhost:8080/api/games/${id}/rating`)
+        .then(res => res.ok ? res.json() : { average: 0 })
+        .catch(() => ({ average: 0 })),
+      fetch(`http://localhost:8080/api/games/${id}/reviews`)
+        .then(res => res.ok ? res.json() : [])
+        .catch(() => [])
+    ])
+      .then(([gameData, genreData, similarData, ratingData, reviewsData]) => {
+        const filteredSimilar = similarData.filter(g => isReleased(g.release_date));
+        setGame(gameData);
+        setGenre(genreData);
+        setSimilarGames(filteredSimilar);
+        setGameRating(ratingData);
+        setReviews(Array.isArray(reviewsData) ? reviewsData : []);
+        setLoading(false);
+      })
+      .catch((err) => {
+        setError(err.message);
+        setLoading(false);
+      });
+  }, [id]);
 
   const handleRatingSubmit = async () => {
     const token = localStorage.getItem("token");
@@ -137,38 +137,31 @@ const GamePage = () => {
     }
   };
 
-  if (loading) return <p style={{ padding: "24px" }}>Загрузка...</p>;
-  if (error) return <p style={{ padding: "24px", color: "red" }}>Ошибка: {error}</p>;
-  if (!game) return <p style={{ padding: "24px" }}>Игра не найдена</p>;
+  if (loading) return <p className="game-page">Загрузка...</p>;
+  if (error) return <p className="game-page" style={{ color: "red" }}>Ошибка: {error}</p>;
+  if (!game) return <p className="game-page">Игра не найдена</p>;
 
   const released = isReleased(game.release_date);
 
   return (
-    <div style={{ display: "flex", flexDirection: "column", gap: "32px", padding: "24px" }}>
-      <div style={{ display: "flex", gap: "24px", alignItems: "flex-start" }}>
-        <img
-          src={game.cover_url}
-          alt={game.title}
-          style={{ maxWidth: "400px", height: "auto", borderRadius: "8px" }}
-        />
-        <div style={{ maxWidth: "600px" }}>
-          <h1 style={{ fontSize: "36px", marginBottom: "12px" }}>{game.title}</h1>
+    <div className="game-page">
+      <div className="game-header">
+        <img src={game.cover_url} alt={game.title} className="game-cover" />
+        <div className="game-details">
+          <h1 className="game-title">{game.title}</h1>
 
           {released && (
-            <p style={{ color: 'green', fontSize: '32px' }}>
-              <strong>{gameRating.average}</strong>
+            <p className="game-rating">
+              <strong>{gameRating.average.toFixed(1)}</strong>
             </p>
           )}
 
           {released && (
-            <div style={{ marginTop: "16px" }}>
+            <div className="rating-form">
               <label>
                 <strong>Поставить оценку:</strong>{" "}
-                <select
-                  value={userScore}
-                  onChange={(e) => setUserScore(Number(e.target.value))}
-                >
-                  <option value={0}>Выберите</option>
+                <select value={userScore} onChange={(e) => setUserScore(Number(e.target.value))}>
+                  <option value={0}>Выберите оценку</option>
                   {[...Array(10)].map((_, i) => (
                     <option key={i + 1} value={i + 1}>{i + 1}</option>
                   ))}
@@ -177,37 +170,23 @@ const GamePage = () => {
               <button
                 onClick={handleRatingSubmit}
                 disabled={userScore === 0}
-                style={{ marginLeft: "12px", padding: "6px 12px", cursor: userScore === 0 ? "not-allowed" : "pointer" }}
+                className="rating-button"
               >
-                Отправить
+                Поставить
               </button>
-              {ratingMessage && <p style={{ marginTop: "8px" }}>{ratingMessage}</p>}
+              {ratingMessage && <p>{ratingMessage}</p>}
             </div>
           )}
 
           {released ? (
-  <button
-    onClick={handleAddToFavorites}
-    style={{
-      marginTop: "16px",
-      padding: "8px 16px",
-      backgroundColor: "#ff4081",
-      color: "white",
-      border: "none",
-      borderRadius: "6px",
-      cursor: "pointer"
-    }}
-  >
-    Добавить в избранное
-  </button>
-) : (
-  <p style={{ marginTop: "16px", fontStyle: "italic", color: "#888" }}>
-    Игра выйдет в будущем
-  </p>
-)}
+            <button onClick={handleAddToFavorites} className="favorite-button">
+              Добавить в любимое
+            </button>
+          ) : (
+            <p className="future-release">Игра выйдет в будущем</p>
+          )}
 
-
-          <p style={{ marginBottom: "12px", color: "#666" }}>{game.description}</p>
+          <p className="game-description">{game.description}</p>
           <p><strong>Разработчик:</strong> {game.developer}</p>
           <p><strong>Издатель:</strong> {game.publisher}</p>
           <p><strong>Платформы:</strong> {game.platforms}</p>
@@ -218,22 +197,13 @@ const GamePage = () => {
 
       {released && (
         <div>
-          <h2 style={{ fontSize: "28px", marginBottom: "12px" }}>Похожие игры</h2>
+          <h2>Похожие игры</h2>
           {similarGames.length > 0 ? (
-            <ul style={{ display: "flex", gap: "24px", flexWrap: "wrap", padding: 0, listStyle: "none" }}>
+            <ul className="similar-games">
               {similarGames.map((similar) => (
-                <li key={similar.id} style={{ flex: "0 0 auto" }}>
-                  <Link to={`/games/${similar.id}`} style={{ textDecoration: "none", color: "inherit" }}>
-                    <img
-                      src={similar.cover_url}
-                      alt={similar.title}
-                      style={{
-                        width: "180px",
-                        height: "auto",
-                        borderRadius: "8px",
-                        cursor: "pointer"
-                      }}
-                    />
+                <li key={similar.id} className="similar-game-item">
+                  <Link to={`/games/${similar.id}`}>
+                    <img src={similar.cover_url} alt={similar.title} className="similar-game-img" />
                   </Link>
                 </li>
               ))}
@@ -246,11 +216,11 @@ const GamePage = () => {
 
       {released && (
         <div>
-          <h2 style={{ fontSize: "28px", marginBottom: "12px" }}>Отзывы</h2>
+          <h2>Отзывы</h2>
           {reviews.length > 0 ? (
-            <ul style={{ listStyle: "none", padding: 0 }}>
+            <ul className="review-list">
               {reviews.map((review, index) => (
-                <li key={index} style={{ marginBottom: "12px", background: "green", padding: "8px", borderRadius: "8px" }}>
+                <li key={index} className="review-item">
                   <strong>{review.user?.username}:</strong> {review.text}
                 </li>
               ))}
@@ -259,22 +229,22 @@ const GamePage = () => {
             <p>Отзывы отсутствуют</p>
           )}
 
-          <div style={{ marginTop: "16px" }}>
+          <div className="review-form">
             <textarea
               value={reviewText}
               onChange={(e) => setReviewText(e.target.value)}
               placeholder="Оставьте отзыв..."
               rows={3}
-              style={{ width: "100%", padding: "8px", borderRadius: "6px", resize: "none" }}
+              className="review-textarea"
             />
             <button
               onClick={handleReviewSubmit}
-              style={{ marginTop: "8px", padding: "6px 12px", cursor: "pointer" }}
+              className="review-button"
               disabled={!reviewText.trim()}
             >
               Отправить отзыв
             </button>
-            {reviewMessage && <p style={{ marginTop: "8px" }}>{reviewMessage}</p>}
+            {reviewMessage && <p>{reviewMessage}</p>}
           </div>
         </div>
       )}

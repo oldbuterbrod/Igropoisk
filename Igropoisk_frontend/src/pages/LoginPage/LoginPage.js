@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import './LoginPage.css';
+
 
 const LoginPage = () => {
   const [formData, setFormData] = useState({
@@ -9,7 +11,7 @@ const LoginPage = () => {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
 
-  // ⛔️ Если токен уже есть — сразу редиректим на профиль
+
   useEffect(() => {
     const token = localStorage.getItem("token");
     if (token) {
@@ -56,44 +58,44 @@ const LoginPage = () => {
   }
 
   return (
-    <div style={{ maxWidth: 400, margin: "auto", padding: 20 }}>
-      <h2>Авторизация</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Email:
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            required
-          />
-        </label>
-        <br />
-        <label>
-          Пароль:
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            required
-            minLength={6}
-          />
-        </label>
-        <br />
-        {error && (
-          <div style={{ color: "red", marginBottom: 10 }}>{error}</div>
-        )}
-        <button type="submit">Войти</button>
-      </form>
+    <div className="login-container">
+  <h2>Авторизация</h2>
+  <form onSubmit={handleSubmit}>
+    <label>
+      Email:
+      <input
+        type="email"
+        name="email"
+        value={formData.email}
+        onChange={handleChange}
+        required
+      />
+    </label>
 
-      <Link to="/register">
-        <button type="button" style={{ marginTop: 10 }}>
-          Нет аккаунта? Зарегистрироваться
-        </button>
-      </Link>
-    </div>
+    <label>
+      Пароль:
+      <input
+        type="password"
+        name="password"
+        value={formData.password}
+        onChange={handleChange}
+        required
+        minLength={6}
+      />
+    </label>
+
+    {error && <div className="error-message">{error}</div>}
+
+    <button type="submit" className="login-button">Войти</button>
+  </form>
+
+  <Link to="/register">
+    <button type="button" className="register-button">
+      Нет аккаунта? Зарегистрироваться
+    </button>
+  </Link>
+</div>
+
   );
 };
 

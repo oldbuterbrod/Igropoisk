@@ -40,7 +40,6 @@ func (h *ReviewHandler) CreateReview(c *gin.Context) {
 
 	err = h.service.CreateReview(userID, gameID, input.Text)
 	if err != nil {
-		// Проверка ошибки на повторный отзыв
 		if err.Error() == "duplicate_review" {
 			c.JSON(http.StatusBadRequest, gin.H{"error": "you have already left a review for this game"})
 			return

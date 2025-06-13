@@ -8,7 +8,6 @@ import (
 	"github.com/golang-jwt/jwt/v5"
 )
 
-// Обязательный JWT middleware (для защищённых эндпоинтов)
 func JWTMiddleware(secret string) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
@@ -34,14 +33,13 @@ func JWTMiddleware(secret string) gin.HandlerFunc {
 			return
 		}
 
-		// Кладём userID именно с ключом "userID" — чтобы совпадало с хендлерами
+	
 		c.Set("userID", int(claims["user_id"].(float64)))
 
 		c.Next()
 	}
 }
 
-// Опциональный JWT middleware (для эндпоинтов, где токен не обязателен)
 func OptionalJWTMiddleware(secret string) gin.HandlerFunc {
 	return func(c *gin.Context) {
 		authHeader := c.GetHeader("Authorization")
@@ -67,7 +65,7 @@ func OptionalJWTMiddleware(secret string) gin.HandlerFunc {
 		if claims, ok := token.Claims.(jwt.MapClaims); ok {
 			userID, ok := claims["user_id"].(float64)
 			if ok {
-				c.Set("userID", int(userID)) // Единый ключ
+				c.Set("userID", int(userID))
 			}
 		}
 

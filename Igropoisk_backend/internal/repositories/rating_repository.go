@@ -35,7 +35,6 @@ func (r *RatingRepository) GetAverageRating(gameID int) (float64, error) {
 	return avg, err
 }
 
-// Новая структура для фронта: score + title
 type RatingInfo struct {
 	Score int    `json:"score"`
 	Title string `json:"title"`
